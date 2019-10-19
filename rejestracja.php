@@ -2,6 +2,11 @@
 session_start();
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
+	$_SESSION['zar_login'] = $_POST['login'];
+	$_SESSION['zar_haslo'] = $_POST['haslo'];
+	$_SESSION['p_haslo'] = $_POST['p_haslo'];
+	$_SESSION['email'] = $_POST['email'];
+
 	function filter($post_name) {return htmlspecialchars(filter_input(INPUT_POST, $post_name), ENT_QUOTES, 'UTF-8');}
 	$login=filter('login');
 	$haslo=filter('haslo');
@@ -10,23 +15,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	
 	$_SESSION['error'] = Array();
 	
-	if($login != $_POST['login'] || !ctype_alnum($login) || strlen($login) < 6 || strlen($login) > 20)
-	{
-		$_SESSION['error']['zar_login'] = "Login musi zawierać od 6 do 20 znaków, tylko litery i cyfry.";
-	}
-	if($haslo != $_POST['haslo'] || strlen($haslo) < 6 || strlen($haslo) > 20 || !preg_match('/[a-z]/', $haslo) || !preg_match('/[A-Z]/', $haslo) || !preg_match('/[0-9]/', $haslo))
-	{
-		$_SESSION['error']['zar_haslo'] = "Hasło musi zawierać od 6 do 20 znaków, minimum 1 duża litera, 1 mała litera i 1 cyfra.";
-	}
-	if($p_haslo != $haslo)
-	{
-		$_SESSION['error']['p_haslo'] = "Hasła nie są takie same.";
-	}
-	if($email != $_POST['email'] || !filter_var($email, FILTER_VALIDATE_EMAIL))
-	{
-		$_SESSION['error']['email'] = "Nieprawidłowy email.";
-	}
-	
+	//walidacja danych
+		if($login != $_POST['login'] || !ctype_alnum($login) || strlen($login) < 6 || strlen($login) > 20)
+			$_SESSION['error']['zar_login'] = "Login musi zawierać od 6 do 20 znaków, tylko litery i cyfry.";
+		if(empty($login))
+			$_SESSION['error']['zar_login'] = "Login jest wymagany.";
+
+		if($haslo != $_POST['haslo'] || strlen($haslo) < 6 || strlen($haslo) > 20 || !preg_match('/[a-z]/', $haslo) || !preg_match('/[A-Z]/', $haslo) || !preg_match('/[0-9]/', $haslo))
+			$_SESSION['error']['zar_haslo'] = "Hasło musi zawierać od 6 do 20 znaków, minimum 1 duża litera, 1 mała litera i 1 cyfra.";
+		if(empty($haslo))
+			$_SESSION['error']['zar_haslo'] = "Hasło jest wymagane.";
+
+		if($p_haslo != $haslo)
+			$_SESSION['error']['p_haslo'] = "Hasła nie są takie same.";
+		if(empty($p_haslo))
+			$_SESSION['error']['p_haslo'] = "Powtórzenie hasła jest wymagane.";
+			
+		if($email != $_POST['email'] || !filter_var($email, FILTER_VALIDATE_EMAIL))
+			$_SESSION['error']['email'] = "Nieprawidłowy email.";
+		if(empty($email))
+			$_SESSION['error']['email'] = "Email jest wymagany.";
+	//////////////////
+
 	require_once 'database.php';
 
 	//sprawdzenie czy login nie jest już zajęty
