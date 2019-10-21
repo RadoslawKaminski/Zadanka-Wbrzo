@@ -9,7 +9,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	$login=filter('login');
 	$haslo=filter('haslo');
 	
-	$_SESSION['error'] = Array();
+	$_SESSION['error'] = Array(
+		'login_pass' => "",
+        'server' => "",
+        'ban' => false
+    );
     
     require_once 'database.php';
     

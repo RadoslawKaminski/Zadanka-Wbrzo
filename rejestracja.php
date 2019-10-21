@@ -13,7 +13,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	$p_haslo=filter('p_haslo');
 	$email=filter('email');
 	
-	$_SESSION['error'] = Array();
+	$_SESSION['error'] = Array(
+		'zar_login' => "",
+		'zar_haslo' => "",
+		'p_haslo' => "",
+		'email' => "",
+		'server' => ""
+	);
 	
 	//walidacja danych
 		if($login != $_POST['login'] || !ctype_alnum($login) || strlen($login) < 6 || strlen($login) > 20)
@@ -49,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 			$isLoginTaken = $resultLogin->fetch_assoc();
 			$isLoginTakenQuerry->close();
 
-			if($isLogin)
+			if($isLoginTaken)
 				$_SESSION['error']['login'] = "Ten login jest już zajęty.";
 		}
 		else
@@ -69,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 			$isEmailTaken = $resultEmail->fetch_assoc();
 			$isEmailTakenQuery->close();
 
-			if($isEmail)
+			if($isEmailTaken)
 				$_SESSION['error']['email'] = "Ten email jest już zajęty.";
 		}
 		else
@@ -111,8 +117,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 			//błąd dodawania po stronie serwera
 			$_SESSION['error']['server'] = "Wystąpił błąd, spróbuj ponownie później.";
-			//usunięcie dodanego usera
-
 			header('Location: index.php');
 			$mysqli->close();
 			exit;
@@ -140,5 +144,7 @@ else
 		header("Location: galeria.php");
 	}
 	else
+	{
 		header("Location: index.php");
+	}
 }
