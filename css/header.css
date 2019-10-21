@@ -37,3 +37,8 @@ nav > ul>li:hover, nav > ul>li.current
 	{background-color:#94bcce;}
 nav::after
 	{clear:both;}
+footer
+{
+	text-align:center;
+	background-color:#f2bc8e;
+}

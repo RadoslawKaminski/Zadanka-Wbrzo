@@ -51,33 +51,42 @@ if(isset($_SESSION['error']['server']))
 				<ul>
 			</nav>
 		</header>
-		<h3 style="display: <?=$server_e_display?>" class='error'><?=$server_error?></h3>
-		<form id="zar_form" action="rejestracja.php" method="post">
-			<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zar_login']) ? $_SESSION['zar_login'] : "")?>" required>
-			<span style="display: <?=$zar_login_e_display?>" class='error'><?=$zar_login_error?></span><br>
-			
-			<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zar_haslo']) ? $_SESSION['zar_haslo'] : "")?>" required>
-			<span style="display: <?=$zar_haslo_e_display?>" class='error'><?=$zar_haslo_error?></span><br>
+		<main>
+			<h3 style="display: <?=$server_e_display?>" class='error'><?=$server_error?></h3>
+			<div class="form-wrapper">
+				<form id="zar_form" action="rejestracja.php" method="post">
+					<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zar_login']) ? $_SESSION['zar_login'] : "")?>" required>
+					<span style="display: <?=$zar_login_e_display?>" class='error'><?=$zar_login_error?></span>
 
-			<input class="p_haslo" name="p_haslo" type="password" placeholder="Powtórz hasło" value="<?=(isset($_SESSION['p_haslo']) ? $_SESSION['p_haslo'] : "")?>" required>
-			<span style="display: <?=$p_haslo_e_display?>" class='error'><?=$p_haslo_error?></span><br>
+					<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zar_haslo']) ? $_SESSION['zar_haslo'] : "")?>" required>
+					<span style="display: <?=$zar_haslo_e_display?>" class='error'><?=$zar_haslo_error?></span>
 
-			<input class="email" name="email" type="email" placeholder="Wpisz email" value="<?=(isset($_SESSION['email']) ? $_SESSION['email'] : "")?>" required>
-			<span style="display: <?=$email_e_display?>" class='error'><?=$email_error?></span><br>
+					<input class="p_haslo" name="p_haslo" type="password" placeholder="Powtórz hasło" value="<?=(isset($_SESSION['p_haslo']) ? $_SESSION['p_haslo'] : "")?>" required>
+					<span style="display: <?=$p_haslo_e_display?>" class='error'><?=$p_haslo_error?></span>
 
-			<input class="zarejestruj" name="zarejestruj" type="submit" value="Zarejestruj">
-		</form>
-		<form id="zal_form" action="logowanie.php" method="post">
-			<div>
-				<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zal_login']) ? $_SESSION['zal_login'] : "")?>" required>
-				<span style="display: none" class='error'></span><br>
-				<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zal_haslo']) ? $_SESSION['zal_haslo'] : "")?>" required>
-				<span style="display: none" class='error'></span>
+					<input class="email" name="email" type="email" placeholder="Wpisz email" value="<?=(isset($_SESSION['email']) ? $_SESSION['email'] : "")?>" required>
+					<span style="display: <?=$email_e_display?>" class='error'><?=$email_error?></span>
+
+					<input class="zarejestruj" name="zarejestruj" type="submit" value="Zarejestruj">
+				</form>
 			</div>
-			<span style="display: <?=$login_pass_e_display?>" class='error'><?=$login_pass_error?></span>
-			<span style="display: <?=$ban_e_display?>" class='error'><?=$ban_error?></span>
-			<input class="zaloguj" name="zaloguj" type="submit" value="Zaloguj">
-		</form>
+			<div class="form-wrapper">
+				<form id="zal_form" action="logowanie.php" method="post">
+					<div id="login_inputs_wrapper">
+						<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zal_login']) ? $_SESSION['zal_login'] : "")?>" required>
+						<span style="display: none" class='error'></span>
+						<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zal_haslo']) ? $_SESSION['zal_haslo'] : "")?>" required>
+						<span style="display: none" class='error'></span>
+					</div>
+					<span style="display: <?=$login_pass_e_display?>" class='error'><?=$login_pass_error?></span>
+					<span style="display: <?=$ban_e_display?>" class='error'><?=$ban_error?></span>
+					<input class="zaloguj" name="zaloguj" type="submit" value="Zaloguj">
+				</form>
+			</div>
+		</main>
+		<footer>
+			Radosław Kamiński 4Tb
+		</footer>
 		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 		<script type="text/javascript">
 		
@@ -133,8 +142,5 @@ if(isset($_SESSION['error']['server']))
 					event.preventDefault();
 			});
 		</script>
-		<footer>
-			Radosław Kamiński 4Tb
-		</footer>
 	</body>
 </html>
