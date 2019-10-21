@@ -1,0 +1,119 @@
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+*:before, *:after {
+	content: " ";
+	display: table;
+}
+/*wyłącza horizontal scroll bar*/
+html, body
+{
+	width: 100% !important;
+	max-width: 100% !important;
+    height: 100% !important;
+}
+html {
+    font-size: 1em;
+    line-height: 1.25;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+body {
+  margin: 0;
+}
+
+/*sprawia, że można wyśrodkować zdjęcie tak samo jak by było tłem diva*/
+.center-img-container
+{
+    overflow:hidden;
+    position:relative;
+}
+.center-img-container>img
+{
+    min-width:100%;
+    position: absolute;
+    top:50%!important;
+    left: 50%!important;
+    transform: translate(-50%, -50%)!important;
+}
+
+.centered
+{
+	position: relative;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+main,
+article,
+aside,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+strong
+{display: inline-block}
+a {
+	background-color: transparent;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	color:currentColor;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: none;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+}
+b,
+strong {
+  font-weight: inherit;
+}
+img {
+  border-style: none;
+}
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+[type="button"],
+[type="reset"],
+[type="submit"],
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+	-webkit-appearance: button;
+	padding: 0;
+}
+[type="checkbox"],
+[type="radio"] {
+	padding: 0;
+}
