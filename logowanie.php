@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             else
             {
                 //użytkownik zbanowany
-                $_SESSION['error']['ban'] = true;
+                $_SESSION['error']['ban'] = "Użytkownik o podanym loginie został zablokowany przez administratora.";
                 header('Location: index.php');
             }
         }
