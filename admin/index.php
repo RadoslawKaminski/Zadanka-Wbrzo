@@ -11,13 +11,16 @@ if(!isset($_SESSION['logged_in']) ||
 ?>
 <html>
 <head>
-        <title>AAaaa</title>
-        <meta charset="utf-8">
-        <style>
-        </style>
+    <title>Panel administracyjny | Projekt aplikacji webowej</title>
+    <meta name="description" content="Strona panelu administracyjnego projektu aplikacji webowej">
+    <meta name="keywords" content="">
+
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <h1>Poprawna rejestracja!</h1>
+    <h1>Panel administracyjny</h1>
     <nav>
         <ul>
             <li><a href="../galeria.php">Galeria</a></li>

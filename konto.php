@@ -8,10 +8,13 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 ?>
 <html>
 <head>
-        <title>AAaaa</title>
-        <meta charset="utf-8">
-        <style>
-        </style>
+    <title>Moje konto | Projekt aplikacji webowej</title>
+    <meta name="description" content="Strona konta użytkownika">
+    <meta name="keywords" content="">
+
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <h1>Moje konto</h1>
