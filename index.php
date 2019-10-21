@@ -30,6 +30,17 @@ if(isset($_SESSION['error']['server']))
 			</style>
 	</head>
 	<body>
+		<nav>
+			<ul>
+				<li><a href="galeria.php">Galeria</a></li>
+				<li><a href="dodaj-album.php">Załóź album</a></li>
+				<li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
+				<li><a href="top-foto.php">Najlepiej oceniane</a></li>
+				<li><a href="nowe-foto.php">Najnowsze</a></li>
+				<li><a href="index.php">Zaloguj się</a></li>
+				<li><a href="index.php">Rejestracja</a></li>
+			<ul>
+		</nav>
     	<h1>Zaloguj się lub zarejestruj</h1>
 		<h3 style="display: <?=$server_e_display?>" class='error'><?=$server_error?></h3>
 		<form id="zar_form" action="rejestracja.php" method="post">
