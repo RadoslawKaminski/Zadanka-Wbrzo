@@ -6,14 +6,15 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 	exit();
 }
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="pl">
 <head>
     <title>Moje konto | Projekt aplikacji webowej</title>
     <meta name="description" content="Strona konta użytkownika">
     <meta name="keywords" content="">
 
     <link rel="stylesheet" href="css/main.css" type="text/css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -31,7 +32,7 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 				<?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="konto.php">Moje konto</a></li>'?>
 				<?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="wyloguj.php">Wyloguj się</a></li>'?>
 				<?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
-			<ul>
+			</ul>
 		</nav>
     </header>
     <main>

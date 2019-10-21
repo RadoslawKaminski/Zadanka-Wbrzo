@@ -22,7 +22,8 @@ if(isset($_SESSION['error']['ban']))
 if(isset($_SESSION['error']['server']))
 	{$server_e_display = 'block'; $server_error = $_SESSION['error']['server'];}
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="pl">
 	<head>
 		<title>Index | Projekt aplikacji webowej</title>
 		<meta name="description" content="Strona logowania i rejestracji projektu aplikacji webowej">
@@ -31,7 +32,7 @@ if(isset($_SESSION['error']['server']))
 		<link rel="stylesheet" href="css/main.css" type="text/css">
 		<link rel="stylesheet" href="css/header.css" type="text/css">
 		<link rel="stylesheet" href="css/index.css" type="text/css">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
@@ -48,7 +49,7 @@ if(isset($_SESSION['error']['server']))
 					<li><a href="nowe-foto.php">Najnowsze</a></li>
 					<li><a href="index.php">Zaloguj się</a></li>
 					<li><a href="index.php">Rejestracja</a></li>
-				<ul>
+				</ul>
 			</nav>
 		</header>
 		<main>
@@ -87,8 +88,8 @@ if(isset($_SESSION['error']['server']))
 		<footer>
 			Radosław Kamiński 4Tb
 		</footer>
-		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-		<script type="text/javascript">
+		<script src="js/jquery-3.4.1.min.js"></script>
+		<script>
 		
 			$('#zar_form').on('submit', function(event){
 				var login = $('#zar_form .login').val(),
