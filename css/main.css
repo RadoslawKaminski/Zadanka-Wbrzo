@@ -1,3 +1,57 @@
+#header_text_wrapper
+{
+    height: 240px;
+    width:100%;
+    position: relative;
+    background-image:url(../img/header_img.jpg);
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center center;
+}
+h1
+{
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	margin:0;
+	font-size: 40px;
+	color:#636363;
+}
+nav
+{
+	background-color:#f2bc8e;
+}
+nav > ul
+{
+	width:100%;
+}
+nav > ul > li
+{
+	float:left;
+	padding:5px 10px;
+	margin:7px 0;
+	transition: 0.3s;
+}
+nav > ul>li:hover, nav > ul>li.current
+	{background-color:#94bcce;}
+nav::after
+	{clear:both;}
+main
+{
+    width:100%;
+    background-color:#94bcce;
+    min-height:550px;
+}
+footer
+{
+	text-align:center;
+	background-color:#f2bc8e;
+}
+
+
+/*---------------------------normalizacja między przeglądarkami-------------------------------------------*/
+
 * {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -25,28 +79,6 @@ body {
   margin: 0;
 }
 
-/*sprawia, że można wyśrodkować zdjęcie tak samo jak by było tłem diva*/
-.center-img-container
-{
-    overflow:hidden;
-    position:relative;
-}
-.center-img-container>img
-{
-    min-width:100%;
-    position: absolute;
-    top:50%!important;
-    left: 50%!important;
-    transform: translate(-50%, -50%)!important;
-}
-
-.centered
-{
-	position: relative;
-	top:50%;
-	left:50%;
-	transform: translate(-50%, -50%);
-}
 main,
 article,
 aside,
