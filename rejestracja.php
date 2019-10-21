@@ -102,6 +102,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 					$_SESSION['user_id'] = $user['id'];
 					$_SESSION['user_login'] = $user['login'];
 					$_SESSION['user_email'] = $user['email'];
+					$_SESSION['uprawnienia'] = $user['uprawnienia'];
 					
 					header('Location: rejestracja-ok.php');
 					$mysqli->close();

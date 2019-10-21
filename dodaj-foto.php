@@ -1,5 +1,10 @@
 <?php
 session_start();
+if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
+{
+	header("Location: index.php");
+	exit();
+}
 ?>
 <html>
 <head>
@@ -9,7 +14,7 @@ session_start();
         </style>
 </head>
 <body>
-    <h1>Galeria</h1>
+    <h1>Dodaj zdjęcie</h1>
     <nav>
         <ul>
             <li><a href="galeria.php">Galeria</a></li>
@@ -24,7 +29,6 @@ session_start();
             <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
         <ul>
     </nav>
-    
     <footer>
         Radosław Kamiński 4Tb
     </footer>

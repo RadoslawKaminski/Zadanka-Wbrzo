@@ -16,7 +16,6 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 <body>
     <h1>Poprawna rejestracja!</h1>
     <a href="galeria.php">Galeria</a>
-    <a href="wyloguj.php">Wyloguj</a>
     <footer>
         Radosław Kamiński 4Tb
     </footer>

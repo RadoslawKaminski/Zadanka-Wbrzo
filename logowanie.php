@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     
     require_once 'database.php';
     
-    if($userQuery = $mysqli->prepare('SELECT id, login, haslo, email, aktywny FROM uzytkownicy WHERE login = ?'))
+    if($userQuery = $mysqli->prepare('SELECT id, login, haslo, email, aktywny, uprawnienia FROM uzytkownicy WHERE login = ?'))
     {
         $userQuery->bind_param("s", $login);
         $userQuery->execute();
@@ -29,6 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_login'] = $user['login'];
                 $_SESSION['user_email'] = $user['email'];
+                $_SESSION['uprawnienia'] = $user['uprawnienia'];
                 
                 header('Location: galeria.php');
             }

@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <html>
 <head>
         <title>AAaaa</title>
@@ -9,7 +6,7 @@ session_start();
         </style>
 </head>
 <body>
-    <h1>Galeria</h1>
+    <h1>Najlepiej oceniane</h1>
     <nav>
         <ul>
             <li><a href="galeria.php">Galeria</a></li>
@@ -24,7 +21,6 @@ session_start();
             <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
         <ul>
     </nav>
-    
     <footer>
         Radosław Kamiński 4Tb
     </footer>
