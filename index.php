@@ -5,21 +5,22 @@ if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)
 	header("Location: galeria.php");
 	exit();
 }
-$zar_login_error = $zar_haslo_error = $p_haslo_error = $email_error = $login_pass_error = $ban_error = $server_error = 'none';
-if(!empty($_SESSION['error']['zar_login']))
-	$zar_login_error = 'inline-block';
-if(!empty($_SESSION['error']['zar_haslo']))
-	$zar_haslo_error = 'inline-block';
-if(!empty($_SESSION['error']['p_haslo']))
-	$p_haslo_error = 'inline-block';
-if(!empty($_SESSION['error']['email']))
-	$email_error = 'inline-block';
-if(!empty($_SESSION['error']['login_pass']))
-	$login_pass_error = 'inline-block';
-if(!empty($_SESSION['error']['ban']))
-	$ban_error = 'inline-block';
-if(!empty($_SESSION['error']['server']))
-	$server_error = 'inline-block';
+$zar_login_e_display = $zar_haslo_e_display = $p_haslo_e_display = $email_e_display = $login_pass_e_display = $ban_e_display = $server_e_display = 'none';
+$zar_login_error = $zar_haslo_error = $p_haslo_error = $email_error = $login_pass_error = $ban_error = $server_error = '';
+if(isset($_SESSION['error']['zar_login']))
+	{$zar_login_e_display = 'inline-block'; $zar_login_error = $_SESSION['error']['zar_login'];}
+if(isset($_SESSION['error']['zar_haslo']))
+	{$zar_haslo_e_display = 'inline-block'; $zar_haslo_error = $_SESSION['error']['zar_haslo'];}
+if(isset($_SESSION['error']['p_haslo']))
+	{$p_haslo_e_display = 'inline-block'; $p_haslo_error = $_SESSION['error']['p_haslo'];}
+if(isset($_SESSION['error']['email']))
+	{$email_e_display = 'inline-block'; $email_error = $_SESSION['error']['email'];}
+if(isset($_SESSION['error']['login_pass']))
+	{$login_pass_e_display = 'block'; $login_pass_error = $_SESSION['error']['login_pass'];}
+if(isset($_SESSION['error']['ban']))
+	{$ban_e_display = 'block'; $ban_error = $_SESSION['error']['ban'];}
+if(isset($_SESSION['error']['server']))
+	{$server_e_display = 'block'; $server_error = $_SESSION['error']['server'];}
 ?>
 <html>
 	<head>
@@ -30,29 +31,31 @@ if(!empty($_SESSION['error']['server']))
 	</head>
 	<body>
     	<h1>Zaloguj się lub zarejestruj</h1>
-		<h3 style="display: <?=$server_error?>" class='error'><?=$_SESSION['error']['server']?></h3>
+		<h3 style="display: <?=$server_e_display?>" class='error'><?=$server_error?></h3>
 		<form id="zar_form" action="rejestracja.php" method="post">
 			<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zar_login']) ? $_SESSION['zar_login'] : "")?>" required>
-			<span style="display: <?=$zar_login_error?>" class='error'><?=$_SESSION['error']['zar_login']?></span><br>
+			<span style="display: <?=$zar_login_e_display?>" class='error'><?=$zar_login_error?></span><br>
 			
 			<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zar_haslo']) ? $_SESSION['zar_haslo'] : "")?>" required>
-			<span style="display: <?=$zar_haslo_error?>" class='error'><?=$_SESSION['error']['zar_haslo']?></span><br>
+			<span style="display: <?=$zar_haslo_e_display?>" class='error'><?=$zar_haslo_error?></span><br>
 
 			<input class="p_haslo" name="p_haslo" type="password" placeholder="Powtórz hasło" value="<?=(isset($_SESSION['p_haslo']) ? $_SESSION['p_haslo'] : "")?>" required>
-			<span style="display: <?=$p_haslo_error?>" class='error'><?=$_SESSION['error']['p_haslo']?></span><br>
+			<span style="display: <?=$p_haslo_e_display?>" class='error'><?=$p_haslo_error?></span><br>
 
 			<input class="email" name="email" type="email" placeholder="Wpisz email" value="<?=(isset($_SESSION['email']) ? $_SESSION['email'] : "")?>" required>
-			<span style="display: <?=$email_error?>" class='error'><?=$_SESSION['error']['email']?></span><br>
+			<span style="display: <?=$email_e_display?>" class='error'><?=$email_error?></span><br>
 
 			<input class="zarejestruj" name="zarejestruj" type="submit" value="Zarejestruj">
 		</form>
 		<form id="zal_form" action="logowanie.php" method="post">
 			<div>
-				<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zal_login']) ? $_SESSION['zal_login'] : "")?>" required><br>
+				<input class="login" name="login" type="text" placeholder="Wpisz login" value="<?=(isset($_SESSION['zal_login']) ? $_SESSION['zal_login'] : "")?>" required>
+				<span style="display: none" class='error'></span><br>
 				<input class="haslo" name="haslo" type="password" placeholder="Wpisz hasło" value="<?=(isset($_SESSION['zal_haslo']) ? $_SESSION['zal_haslo'] : "")?>" required>
+				<span style="display: none" class='error'></span>
 			</div>
-			<span style="display: <?=$login_pass_error?>" class='error'><?=$_SESSION['error']['login_pass']?></span>
-			<span style="display: <?=$ban_error?>" class='error'><?=$_SESSION['error']['ban']?></span>
+			<span style="display: <?=$login_pass_e_display?>" class='error'><?=$login_pass_error?></span>
+			<span style="display: <?=$ban_e_display?>" class='error'><?=$ban_error?></span>
 			<input class="zaloguj" name="zaloguj" type="submit" value="Zaloguj">
 		</form>
 		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
@@ -90,13 +93,21 @@ if(!empty($_SESSION['error']['server']))
 			});
 			
 			$('#zal_form').on('submit', function(event){
-				var login = $('#zal_form #login').val(),
-					haslo = $('#zal_form #haslo').val();
-				var ok = true;
+				var login = $('#zal_form .login').val(),
+					haslo = $('#zal_form .haslo').val();
+
+				$('.error').css('display', 'none');
+
+				if(!(/^[A-Za-z0-9]*$/.test(login)) || login.length < 6 || login.length > 20)
+					$('#zal_form .login').next().css('display', 'inline-block').text("Login musi zawierać od 6 do 20 znaków, tylko litery i cyfry.");
+				if(!login)
+					$('#zal_form .login').next().css('display', 'inline-block').text("Login jest wymagany.");
+				if(haslo.length < 6 || haslo.length > 20 || !(/[a-z]/.test(haslo)) || !(/[A-Z]/.test(haslo)) || !(/\d/.test(haslo)))
+					$('#zal_form .haslo').next().css('display', 'inline-block').text("Hasło musi zawierać od 6 do 20 znaków, minimum 1 duża litera, 1 mała litera i 1 cyfra.");
+				if(!haslo)
+					$('#zal_form .haslo').next().css('display', 'inline-block').text("Hasło jest wymagane.");
 				
-				//walidacja logowania tutaj
-				
-				if(ok)
+				if($('.error[style*="display: inline-block"]').length == 0)
 					return
 				else
 					event.preventDefault();

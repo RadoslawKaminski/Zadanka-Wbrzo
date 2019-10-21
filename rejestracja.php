@@ -13,13 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	$p_haslo=filter('p_haslo');
 	$email=filter('email');
 	
-	$_SESSION['error'] = Array(
-		'zar_login' => "",
-		'zar_haslo' => "",
-		'p_haslo' => "",
-		'email' => "",
-		'server' => ""
-	);
+	$_SESSION['error'] = Array();
 	
 	//walidacja danych
 		if($login != $_POST['login'] || !ctype_alnum($login) || strlen($login) < 6 || strlen($login) > 20)
