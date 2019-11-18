@@ -1,0 +1,18 @@
+#albumy>ul>li
+{
+    cursor: pointer;
+    padding:10px;
+}
+#albumy
+{
+    background-color:#f2bc8e;
+    width:220px;
+    text-align:center;
+    position:relative;
+    top:0;
+    bottom:0;
+}
+#albumy>ul>li:hover, #albumy>ul>li.current
+{
+    background-color:#94bcce;
+}

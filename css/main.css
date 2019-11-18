@@ -1,3 +1,7 @@
+body
+{
+  background-color:#94bcce;
+}
 #header_text_wrapper
 {
     height: 240px;
@@ -18,35 +22,36 @@ h1
 	font-size: 40px;
 	color:#636363;
 }
-nav
+header nav
 {
 	background-color:#f2bc8e;
 }
-nav > ul
+header nav > ul
 {
 	width:100%;
 }
-nav > ul > li
+header nav > ul > li
 {
 	float:left;
 	padding:5px 10px;
 	margin:7px 0;
 	transition: 0.3s;
 }
-nav > ul>li:hover, nav > ul>li.current
+header nav > ul>li:hover, header nav > ul>li.current
 	{background-color:#94bcce;}
-nav::after
+header nav::after
 	{clear:both;}
 main
 {
     width:100%;
-    background-color:#94bcce;
-    min-height:550px;
 }
 footer
 {
 	text-align:center;
-	background-color:#f2bc8e;
+  background-color:#f2bc8e;
+  position:fixed;
+  bottom:0;
+  width:100%;
 }
 
 
