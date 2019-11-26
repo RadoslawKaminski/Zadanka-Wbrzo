@@ -50,9 +50,9 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 					$result = $albumQuery->get_result();
 					$albumQuery->close();
 
-					while($album = $result->fetch_assoc()) 
+					while($album = $result->fetch_assoc())
 					{
-						echo "<li class='".($_SESSION['selected_album'] == $album['id'] ? "current" : "")."' album_id='".$album['id']."'>".$album['tytul']."</li>";
+						echo "<li class='album ".(isset($_SESSION['selected_album']) ? ($_SESSION['selected_album'] == $album['id'] ? "current" : "") : "")."' album_id='".$album['id']."'>".$album['tytul']."</li>";
 					}
 				}
 			?>
@@ -61,10 +61,10 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 		<section>
 			<h3 style="display: none" class='error'></h3>
 			<div class="form-wrapper">
-				<form id="foto_form" action="dodaj-foto.php" method="post">
-					
-					<input type="file" name=""><br>
+				<form id="foto_form" action="dodawanie_zdjecia.php" method="post">
 					<span style="display: none" class='error'></span>
+					<input class="file-input" type="file" name="file-input" required><br>
+					<textarea class="opis" maxlength="255" placeholder="Dodaj opis..."></textarea>
 					<input class="dodaj-album" name="dodaj-album" type="submit" value="Dodaj album">
 				</form>
 			</div>
@@ -73,32 +73,52 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
     <footer>
         Radosław Kamiński 4Tb
 	</footer>
-	<script>
-			$("#foto-form").submit(function() 
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script> 
+		$("#albumy li.album").on("click", function()
+		{
+			$("#albumy li.album").removeClass("current");
+			$(this).addClass("current");
+		});
+		$("#foto_form").submit(function(e) 
+		{
+			e.preventDefault();
+			$('.error').css('display', 'none');
+			if(!$("#albumy li.album.current").length)
 			{
-				var formData = new FormData();
-				let file_n = $(this).find('.file-input')[0].files[0]['name'].replace(/\s/g, "-");
-				formData.append(file_n, $(this).find('.file-input')[0].files[0]);
-				$.ajax(
-				{
-					type: 'POST',
-					url: 'dodaj-foto.php',
-					data: formData,
-					processData: false,  // tell jQuery not to process the data
-					contentType: false,  // tell jQuery not to set contentType
-					success: function(data) 
-					{
-						if(data == "no_errors")
-						{
-							
-						}
-						else
-						{
-							$('#errors').html(data);
-						}
-					}
-				});
+				$("h3.error").css('display', 'block').text("Wybierz album, do którego chcesz dodać zdjęcie");
+				return
 			}
+			if($(this).find('.file-input').val() == "")
+			{
+				$("#foto_form .error").css('display', 'block').text("Wybierz zdjęcie, które chcesz dodać");
+				return
+			}
+			var formData = new FormData();
+			formData.append("file", $(this).find('.file-input')[0].files[0]);
+			formData.append("album_id", $("#albumy li.album.current").attr("album_id"));
+			formData.append("opis", $("textarea.opis").val());
+			$.ajax(
+			{
+				type: 'POST',
+				url: 'dodawanie_zdjecia.php',
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: function(data) 
+				{
+					if(data == "no_errors")
+					{
+						
+					}
+					else
+					{
+						$('#foto_form .error').css('display', 'block').html(data);
+					}
+				}
+			});
+		});
 	</script>
 </body>
 </html>

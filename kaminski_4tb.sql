@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 21 Paź 2019, 18:44
+-- Czas generowania: 21 Paź 2019, 23:57
 -- Wersja serwera: 10.3.15-MariaDB
 -- Wersja PHP: 7.3.6
 
@@ -56,7 +56,8 @@ CREATE TABLE `uzytkownicy` (
 --
 
 INSERT INTO `uzytkownicy` (`id`, `login`, `haslo`, `email`, `zarejestrowany`, `uprawnienia`, `aktywny`) VALUES
-(18, 'QWERqwer1234', '9692507f124f9aa63d869aa72ce219ec', 'QWERqwer1234@gmail.com', '2019-10-21', 'użytkownik', 1);
+(18, 'QWERqwer1234', '9692507f124f9aa63d869aa72ce219ec', 'QWERqwer1234@gmail.com', '2019-10-21', 'użytkownik', 1),
+(19, 'ASDFasdf1234', '86ce4a3d83ff1debe4d94021dd8a3e78', 'ASDFasdf1234@gmail.com', '2019-10-21', 'administrator', 1);
 
 -- --------------------------------------------------------
 
@@ -150,7 +151,7 @@ ALTER TABLE `albumy`
 -- AUTO_INCREMENT dla tabeli `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT dla tabeli `zdjecia`
