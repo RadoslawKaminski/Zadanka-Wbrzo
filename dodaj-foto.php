@@ -26,7 +26,7 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 		<nav>
 			<ul>
 				<li><a href="galeria.php">Galeria</a></li>
-				<li><a href="dodaj-album.php">Załóź album</a></li>
+				<li><a href="dodaj-album.php">Załóż album</a></li>
 				<li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
 				<li><a href="top-foto.php">Najlepiej oceniane</a></li>
 				<li><a href="nowe-foto.php">Najnowsze</a></li>
@@ -58,15 +58,15 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 			?>
 			</ul>
 		</nav>
-		<section>
+		<section id="content">
 			<h3 style="display: none" class='error'></h3>
-			<div class="form-wrapper">
-				<form id="foto_form" action="dodawanie_zdjecia.php" method="post">
-					<span style="display: none" class='error'></span>
-					<input class="file-input" type="file" name="file-input" required><br>
-					<textarea class="opis" maxlength="255" placeholder="Dodaj opis..."></textarea>
-					<input class="dodaj-album" name="dodaj-album" type="submit" value="Dodaj album">
-				</form>
+			<form id="foto_form" action="dodawanie_zdjecia.php" method="post">
+				<span style="display: none" class='error'></span>
+				<input class="file-input" type="file" name="file-input" required><br>
+				<textarea class="opis" maxlength="255" placeholder="Dodaj opis..."></textarea>
+				<input class="dodaj-zdjecie" name="dodaj-zdjecie" type="submit" value="Dodaj zdjęcie">
+			</form>
+			<div id="miniatury">
 			</div>
 		</section>
     </main>
@@ -74,30 +74,61 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
         Radosław Kamiński 4Tb
 	</footer>
 	<script src="js/jquery-3.4.1.min.js"></script>
-	<script> 
+	<script>
+		function pokaz_miniatury()
+		{
+			var album_id = $("#albumy li.album.current").attr("album_id");
+			$.ajax(
+			{
+				type: 'POST',
+				url: 'pokaz_zdjecia.php',
+				data: {album_id: album_id},
+				cache: false,
+				success: function(data) 
+				{
+					$("#miniatury").html(data);
+				}
+			});
+		}
+
+		$(window).on("load", function()
+		{
+			if($("#albumy li.album.current").length)
+			{
+				$("#foto_form").css('display', 'block');
+				pokaz_miniatury();
+			}
+		});
+
 		$("#albumy li.album").on("click", function()
 		{
 			$("#albumy li.album").removeClass("current");
 			$(this).addClass("current");
+			$("#foto_form").css('display', 'block');
+			pokaz_miniatury();
 		});
+
 		$("#foto_form").submit(function(e) 
 		{
 			e.preventDefault();
 			$('.error').css('display', 'none');
+			var file_input = $(this).find('.file-input');
 			if(!$("#albumy li.album.current").length)
 			{
 				$("h3.error").css('display', 'block').text("Wybierz album, do którego chcesz dodać zdjęcie");
 				return
 			}
-			if($(this).find('.file-input').val() == "")
+			if(file_input.val() == "")
 			{
 				$("#foto_form .error").css('display', 'block').text("Wybierz zdjęcie, które chcesz dodać");
 				return
 			}
+
 			var formData = new FormData();
-			formData.append("file", $(this).find('.file-input')[0].files[0]);
+			formData.append("file", file_input[0].files[0]);
 			formData.append("album_id", $("#albumy li.album.current").attr("album_id"));
 			formData.append("opis", $("textarea.opis").val());
+			
 			$.ajax(
 			{
 				type: 'POST',
@@ -110,12 +141,11 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true)
 				{
 					if(data == "no_errors")
 					{
-						
+						$('#foto_form')[0].reset();
+						pokaz_miniatury();
 					}
 					else
-					{
 						$('#foto_form .error').css('display', 'block').html(data);
-					}
 				}
 			});
 		});

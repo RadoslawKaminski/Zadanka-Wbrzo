@@ -53,6 +53,11 @@ footer
   bottom:0;
   width:100%;
 }
+.error
+{
+	color:#ce0000;
+	font-weight:bold;
+}
 
 
 /*---------------------------normalizacja między przeglądarkami-------------------------------------------*/

@@ -11,8 +11,29 @@
     position:relative;
     top:0;
     bottom:0;
+    float:left;
 }
 #albumy>ul>li:hover, #albumy>ul>li.current
 {
     background-color:#94bcce;
+}
+#content
+{
+    float:left;
+    width: calc(100% - 220px);
+}
+main::after
+{
+    clear:both;
+}
+#foto_form
+{
+    display: none;
+    margin:30px 10px;
+}
+#foto_form textarea
+{
+    margin-top: 10px;
+    width:500px;
+    height:80px;
 }

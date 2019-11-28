@@ -9,9 +9,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION['error'] = "";
     //walidacja danych
     if(!ctype_digit($album_id))
-        $_SESSION['error'] = "Wybrano niepoprawny album<br>";
-    if(!@getimagesize($_FILES["file"]['tmp_name'])) 
-        $_SESSION['error'] .= "Przekazany plik to nie zdjęcie<br>";
+		$_SESSION['error'] = "Wybrano niepoprawny album<br>";
+    if(!getimagesize($_FILES["file"]['tmp_name'])) 
+		$_SESSION['error'] .= "Przekazany plik to nie zdjęcie<br>";
+	if(strlen($opis) > 255)
+		$_SESSION['error'] .= "Opis może zawierać maksymalnie 255 znaków<br>";
 	//////////////////
 
 	require_once 'database.php';
@@ -28,21 +30,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         if($album)
         {
-            if($album[0]["id_uzytkownika"] != $_SESSION["user_id"])
+            if($album["id_uzytkownika"] != $_SESSION["user_id"])
                 $_SESSION['error'] .= "Ten album nie należy do Ciebie!<br>";
         }
         else
             $_SESSION['error'] .= "Ten album nie istnieje<br>";
-
-        $mysqli->close();
     }
     else
         $_SESSION['error'] = "Wystąpił błąd, spróbuj ponownie później.";
     /////////////////////////////////////////////
 
+
 	if(empty($_SESSION['error']))
 	{
-		if ($addphoto = $mysqli->prepare("INSERT INTO zdjecia(id, opis, id_albumu, data, zaakceptowane) VALUES (NULL, ?, ?, NOW(), 0)"))
+		if($addphoto = $mysqli->prepare("INSERT INTO zdjecia(id, opis, id_albumu, data, zaakceptowane) VALUES (NULL, ?, ?, NOW(), 0)"))
 		{
 			$addphoto->bind_param("si", $opis, $album_id);
 			$addphoto->execute();
@@ -62,9 +63,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     //dodawanie zdjęcia na serwer
                     if (!move_uploaded_file($_FILES["file"]['tmp_name'], "img/".$album_id."/".$photo_id))
                         echo "Nieudane przekazanie pliku";
-                    else
-                        echo "no_errors";
-                    ///////////////////
+					else
+					{
+						//skalowanie zdjęcia
+						require_once 'class.img.php';
+						$img = new Image("img/".$album_id."/".$photo_id);
+						$img->SetMaxSize(1200);
+						$img->Save("img/".$album_id."/".$photo_id);
+						////////////////////
+
+						echo "no_errors";
+					}
+                    //////////////////////////////
 
 					$mysqli->close();
 					exit;
