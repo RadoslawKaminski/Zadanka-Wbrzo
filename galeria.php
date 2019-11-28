@@ -9,7 +9,6 @@ session_start();
     <meta name="keywords" content="">
 
     <link rel="stylesheet" href="css/main.css" type="text/css">
-    <link rel="stylesheet" href="css/header.css" type="text/css">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -34,6 +33,68 @@ session_start();
         </nav>
     </header>
     <main>
+    <?php
+        function filter($get_name) {return htmlspecialchars(filter_input(INPUT_GET, $get_name), ENT_QUOTES, 'UTF-8');}
+
+        $strona = isset($_GET['strona']) ? filter("strona") : 1;
+		$order_by = filter("sortuj_wg");
+		$order = (filter("kolejnosc") == "rosnaco" ? "ASC" : "DESC");
+        $ok = true;
+
+        $order == "rosnaco" ? $order = "ASC" : $order = "DESC";
+
+        if(ctype_digit($strona))
+            $ok = false;
+
+        if($ok)
+        {
+            $pomin = ($strona * 20) - 20;
+            require_once 'database.php';
+
+            switch($order_by)
+            {
+                case 'data': $order_by = "a.data"; break;
+                case 'nick': $order_by = "u.login"; break;
+                default: $order_by = "a.tytul";
+            }
+            $order_by_query = "ORDER BY $order_by $order";
+
+            if($albumQuery = $mysqli->prepare("SELECT 
+                                                    a.id AS id,
+                                                    a.tytul,
+                                                    a.data,
+                                                    a.id_uzytkownika,
+                                                    z.id AS z_id,
+                                                    z.id_albumu,
+                                                    z.zaakceptowane,
+                                                    u.id AS u_id,
+                                                    u.login
+                                                FROM 
+                                                    albumy a
+                                                    join zdjecia z
+                                                        ON a.id = z.id_albumu
+                                                    join uzytkownicy u
+                                                        ON a.id_uzytkownika = u.id
+                                                WHERE z.zaakceptowane = 1 
+                                                GROUP BY a.id 
+                                                $order_by_query
+                                                LIMIT 20 OFFSET ?"))
+            {
+                $albumQuery->bind_param("i", $pomin);
+                $albumQuery->execute();
+                
+                $result = $albumQuery->get_result();
+                $albumQuery->close();
+    
+                while($album = $result->fetch_assoc())
+                {
+                    /*var_dump($album);
+                    echo "<br>";*/
+                    echo "<div class='album' album_id='".$album['id']."'>".$album['tytul']."</div>";
+                }
+            }
+        }
+    ?>
     </main>
     <footer>
         Radosław Kamiński 4Tb
