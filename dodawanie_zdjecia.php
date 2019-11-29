@@ -49,15 +49,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 			$addphoto->execute();
 			$addphoto->close();
             $photo_id = $mysqli->insert_id;
-			if($isUserAlbumQuery = $mysqli->prepare('SELECT id, id_albumu FROM zdjecia WHERE id = ?'))
+			if($result = $mysqli->query("SELECT id, id_albumu FROM zdjecia WHERE id = $photo_id"))
 			{
-				$isUserAlbumQuery->bind_param("i", $photo_id);
-				$isUserAlbumQuery->execute();
-				
-				$result = $isUserAlbumQuery->get_result();
 				$photo = $result->fetch_assoc();
-				$isUserAlbumQuery->close();
-
 				if($photo)
 				{
                     //dodawanie zdjęcia na serwer

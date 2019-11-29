@@ -105,11 +105,13 @@ session_start();
                         {
                             echo "<li><a href='?album_id=$album_id&strona=$i' ".($i == $strona ? "class='current-page'" : "").">$i</a></li>";
                         }
-                    ?>                
+                    ?>
                                     </ul>
                                 </nav>
                     <?php
                     }
+                    if($wyswietlono_ilosc == 0)
+                        echo "<h2>Ten album nie ma żadnych zaakceptowanych zdjęć</h2>";
                 }
             }
         ?>
