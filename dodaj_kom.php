@@ -15,7 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	if(ctype_digit($zdjecie_id))
 	{
 		require_once 'database.php';
-		if ($addkom = $mysqli->prepare("INSERT INTO zdjecia_komentarze(id_zdjecia, id_uzytkownika, data, komentarz, zaakceptowany) VALUES ($zdjecie_id, $user_id, now(), ?, 0)"))
+		//w poleceniu nie było z jaką wartością początkową "zaakceptowany" dodawać komentarze, więc dodaję jako 1, dla większego komfortu użytkowania strony
+		if ($addkom = $mysqli->prepare("INSERT INTO zdjecia_komentarze(id_zdjecia, id_uzytkownika, data, komentarz, zaakceptowany) VALUES ($zdjecie_id, $user_id, now(), ?, 1)"))
 		{
 			$addkom->bind_param("s", $komentarz);
 			if($addkom->execute())

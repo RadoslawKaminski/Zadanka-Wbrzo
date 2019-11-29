@@ -57,9 +57,11 @@ session_start();
                 if($zdjecieQuery = $mysqli->prepare("SELECT 
                                                             z.id,
                                                             z.id_albumu,
+                                                            z.zaakceptowane,
                                                             count(z.id) AS countId
                                                         FROM zdjecia z
                                                         WHERE z.id_albumu = ?
+                                                            AND z.zaakceptowane = 1
                                                         GROUP BY z.id
                                                         ORDER BY z.id DESC
                                                         LIMIT $pomin, 18446744073709551615"))

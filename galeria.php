@@ -110,7 +110,7 @@ session_start();
                                     <a href='album.php?album_id=".$album['id']."'>
                                         <img 
                                             src='data:image/jpeg;base64, $output' 
-                                            title='".$album['tytul'].", zdjęcie użytkownika ".$album['login'].", dodane ".$album['data']."' 
+                                            title='".$album['tytul'].", album użytkownika ".$album['login'].", utworzony ".$album['data']."' 
                                             alt='miniatura zdjęcia w albumie'
                                         >
                                     </a>

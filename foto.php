@@ -102,13 +102,11 @@ session_start();
                                         <h3>Dodał: ".$zdjecie['login']."</h3>
                                         ".($zdjecie['opis'] != "" ? "<p>Opis: ".$zdjecie['opis']."</p>" : "")."
                                     </section>";
-                            echo    "<section class='zdjecie' zdjecie_id='".$zdjecie['id']."'>
-                                        <a href='foto.php?zdjecie_id=".$zdjecie['id']."'>
+                            echo    "<section id='zdjecie' zdjecie_id='".$zdjecie['id']."'>
                                             <img 
                                                 src='data:image/jpeg;base64, $output' 
                                                 alt='Miniatura zdjęcia w albumie'
                                             >
-                                        </a>
                                     </section>";
                             echo    "<section>
                                         ".($zdjecie['l_ocen'] != NULL ?
@@ -152,6 +150,7 @@ session_start();
                                     }
                                 }
                             }
+                            echo                "<section id='komentarze'></section>";
 
                             /*==============formularz dodawania komentarza===============*/
                             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)
@@ -161,6 +160,12 @@ session_start();
                                                         <textarea id='kom_tresc' placeholder='Dodaj komentarz...'></textarea>
                                                         <input id='kom_submit' type='submit' value='Dodaj'>
                                                     </form>
+                                                </section>";
+                            }
+                            else
+                            {
+                                echo            "<section>
+                                                    <h3>Musisz się zalogować, aby dodać komentarz</h3>
                                                 </section>";
                             }
                         }
@@ -181,6 +186,30 @@ session_start();
     </footer>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script>
+    
+		function pokaz_kom()
+		{
+            var zdjecie_id = $("#zdjecie").attr('zdjecie_id');
+            if(zdjecie_id)
+            {
+                $.ajax(
+                {
+                    type: 'POST',
+                    url: 'pokaz_kom.php',
+                    data: {zdjecie_id: zdjecie_id},
+                    success: function(data) 
+                    {
+                        $("#komentarze").html(data);
+                    }
+                });
+            }
+		}
+
+		$(window).on("load", function()
+		{
+            pokaz_kom();
+		});
+
         $("#ocen_form").submit(function(e) 
 		{
 			e.preventDefault();
@@ -199,11 +228,12 @@ session_start();
 				}
 			});
 		});
+        
         $("#kom_form").submit(function(e) 
 		{
 			e.preventDefault();
 			var komentarz = $('#kom_tresc').val();
-            var zdjecie_id = $(this).attr('zdjecie_id');
+            var zdjecie_id = $("#zdjecie").attr('zdjecie_id');
 			$.ajax(
 			{
 				type: 'POST',
@@ -214,7 +244,7 @@ session_start();
 					if(data == "no_errors")
 					{
 						$('#kom_form')[0].reset();
-						//zaktualizuj_kom();
+						pokaz_kom();
 					}
                     else
                         $("main").append(data);
