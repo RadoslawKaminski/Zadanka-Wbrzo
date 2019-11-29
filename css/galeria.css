@@ -28,6 +28,11 @@
     border-top:2px solid #f2bc8e;
     margin-top:20px;
 }
+.zdjecie
+{
+    display: inline-block;
+    margin:10px;
+}
 #paginacja ul
 {
     text-align:center;
@@ -42,8 +47,16 @@
     margin-left:10px;
     border:1px dashed #f2bc8e;
 }
-#paginacja li .current-page
+#paginacja li a.current-page,
+#paginacja li a:hover,
+main>a.go-galery:hover
 {
     background-color: #f2bc8e;
     border:1px solid #f2bc8e;
+}
+main>a.go-galery
+{
+    margin:10px;
+    padding:5px;
+    border:1px dashed #f2bc8e;
 }
