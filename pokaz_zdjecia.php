@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             $output = base64_encode(ob_get_contents());
             ob_end_clean();
 
-            echo '<img src="data:image/jpeg;base64, '.$output.'" style="display:inline-block;margin:10px;">';
+            echo '<img src="data:image/jpeg;base64, '.$output.'" style="display:inline-block;margin:10px;" alt="miniatura zdjęcia z albumu">';
         }
     }
 }

@@ -1,6 +1,7 @@
 body
 {
   background-color:#94bcce;
+  padding-bottom:20px;
 }
 #header_text_wrapper
 {
@@ -52,6 +53,7 @@ footer
   position:fixed;
   bottom:0;
   width:100%;
+  line-height:20px;
 }
 .error
 {
@@ -76,7 +78,6 @@ html, body
 {
 	width: 100% !important;
 	max-width: 100% !important;
-    height: 100% !important;
 }
 html {
     font-size: 1em;

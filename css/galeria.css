@@ -1,0 +1,49 @@
+#container
+{
+    padding:30px;
+}
+#ustawienia
+{
+    border:2px solid #f2bc8e;
+    display: inline-block;
+    padding: 20px;
+    text-align: center;
+}
+#ustawienia a
+{
+    display:inline-block;
+    width:80px;
+    padding:5px;
+    margin-left:10px;
+    background-color: #f2bc8e;
+    border:1px solid #f2bc8e;
+}
+#ustawienia a:hover
+{
+    background-color: unset;
+    border:1px dashed #f2bc8e;
+}
+.album
+{
+    border-top:2px solid #f2bc8e;
+    margin-top:20px;
+}
+#paginacja ul
+{
+    text-align:center;
+}
+#paginacja li
+{
+    display: inline-block;
+}
+#paginacja li a
+{
+    padding:5px;
+    margin-left:10px;
+    border:1px dashed #f2bc8e;
+}
+#paginacja li .current-page
+{
+    background-color: #f2bc8e;
+    border:1px solid #f2bc8e;
+}
