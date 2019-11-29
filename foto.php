@@ -9,7 +9,7 @@ session_start();
     <meta name="keywords" content="">
 
     <link rel="stylesheet" href="css/main.css" type="text/css">
-    <link rel="stylesheet" href="css/zdjecie.css" type="text/css">
+    <link rel="stylesheet" href="css/foto.css" type="text/css">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -40,7 +40,7 @@ session_start();
             $album_id = filter("album_id");
             $zdjecie_id = filter("zdjecie_id");
             
-            echo "<a class='go-galery' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a><br>";
+            echo "<a class='go-album' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a><br>";
             
             $ok = true;
 
@@ -93,7 +93,12 @@ session_start();
                         $img->Send();
                         $output = base64_encode(ob_get_contents());
                         ob_end_clean();
-
+                        echo    "<section>
+                                    <h3>Album: ".$zdjecie['tytul']."</h3>
+                                    <h3>Data dodania: ".$zdjecie['data']."</h3>
+                                    <h3>Dodał: ".$zdjecie['login']."</h3>
+                                    ".($zdjecie['opis'] != "" ? "<p>Opis: ".$zdjecie['opis']."</p>" : "")."
+                                </section>";
                         echo    "<section class='zdjecie' zdjecie_id='".$zdjecie['id']."'>
                                     <a href='foto.php?zdjecie_id=".$zdjecie['id']."'>
                                         <img 
@@ -102,14 +107,80 @@ session_start();
                                         >
                                     </a>
                                 </section>";
+                        echo    "<section>
+                                    ".($zdjecie['l_ocen'] != NULL ?
+                                    "<h3>Ocena: ".round($zdjecie['ocena'])."</h3>
+                                    <h3>Oceniło ".$zdjecie['l_ocen']." użytkowników</h3>"
+                                    :
+                                    "<h3>To zdjęcie jeszcze nie ma ocen</h3>"
+                                    )."
+                                </section>";
+                    }
+                }
+                if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)
+                {
+                    $user_id = $_SESSION['user_id'];
+                    if($result = $mysqli->query("SELECT 
+                                                        o.ocena
+                                                    FROM zdjecia_oceny o
+                                                        join uzytkownicy u
+                                                            ON o.id_uzytkownika = u.id
+                                                    WHERE u.id = $user_id
+                                                    GROUP BY o.ocena"))
+                    {
+                        require_once 'class.img.php';
+    
+                        $ocena = $result->fetch_assoc();
+                        if($ocena)
+                        {
+                            //user już ocenił zdjęcie
+                            echo    "<section>
+                                        <h3>Już oceniłeś to zdjęcie na ".round($zdjecie['ocena'])."</h3>
+                                    </section>";
+                        }
+                        else
+                        {
+                            //user jeszcze nie ocenił zdjęcia
+                            echo    "<section>
+                                        <form id='ocen_form' method='post' action='ocen.php' zdjecie_id='$zdjecie_id'>
+                                            <h2>Oceń zdjęcie</h2>
+                                            <select id='ocena' name='ocena'>";
+                                                for($i = 1; $i<=10; $i++)
+                                                    echo "<option value='".$i."'>".$i."</option>";
+                            echo            "</select>
+                                            <input id='ocena_submit' type='submit' value='Oceń'>
+                                        </form>
+                                    </section>";
+                        }
                     }
                 }
             }
-            echo "<br><a class='go-galery' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a>";
+            echo "<br><a class='go-album' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a>";
         ?>
     </main>
     <footer>
         Radosław Kamiński 4Tb
     </footer>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $("#ocen_form").submit(function(e) 
+		{
+			e.preventDefault();
+			var ocena = $('#ocena').val();
+            var zdjecie_id = $(this).attr('zdjecie_id');
+            
+			$.ajax(
+			{
+				type: 'POST',
+				url: 'ocen.php',
+				data: {ocena: ocena, zdjecie_id: zdjecie_id},
+				success: function(data) 
+				{
+					if(data == "no_errors")
+                        location.reload();
+				}
+			});
+		});
+    </script>
 </body>
 </html>

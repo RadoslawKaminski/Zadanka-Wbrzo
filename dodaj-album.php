@@ -21,15 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$addalbum->execute();
 				$addalbum->close();
 				$id_albumu = $mysqli->insert_id;
-				if($albumQuery = $mysqli->prepare('SELECT id, tytul, data, id_uzytkownika FROM albumy WHERE id = ?'))
+				if($result = $mysqli->query("SELECT id, tytul, data, id_uzytkownika FROM albumy WHERE id = $id_albumu"))
 				{
-					$albumQuery->bind_param("i", $id_albumu);
-					$albumQuery->execute();
-					
-					$result = $albumQuery->get_result();
 					$album = $result->fetch_assoc();
-					$albumQuery->close();
-
 					if($album)
 					{
 						if (!file_exists('img/'.$id_albumu)) 
