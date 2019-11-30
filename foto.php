@@ -97,17 +97,32 @@ session_start();
             <main id="container">
                             <?php
                             echo "<a class='go-album' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a><br>";
-
+                            
                             echo    "<section id='informacje'>
                                         <h4>Dodane przez ".$zdjecie['login']."</h4>
                                         <span>".$zdjecie['data']."</span>
                                         ".($zdjecie['opis'] != "" ? "<p>".$zdjecie['opis']."</p>" : "")."
                                     </section>";
-                            echo    "<section id='zdjecie' zdjecie_id='".$zdjecie['id']."'>
-                                            <img 
-                                                src='data:image/jpeg;base64, $output' 
-                                                alt='Miniatura zdjęcia w albumie'
-                                            >
+                            echo    "<section id='zdjecie' zdjecie_id='".$zdjecie['id']."'>";
+
+                            if($zdjeciaQuery = $mysqli->prepare("SELECT id FROM zdjecia WHERE id_albumu = ? AND zaakceptowane = 1 ORDER BY id DESC"))//od najnowszych
+                            {
+                                $zdjeciaQuery->bind_param("i", $album_id);
+                                $zdjeciaQuery->execute();
+                                $result = $zdjeciaQuery->get_result();
+                                $zdjecia_result = $result->fetch_all();
+                                $zdjecia = array_map('current', $zdjecia_result);//zamiana dwu wymiarowej tablicy wyniku zapytania w jedno wymiarową
+                                $aktualny = array_search($zdjecie_id, $zdjecia);//klucz id aktualnego zdjecia w tablicy
+                                if($aktualny > 0)
+                                    echo "<a class='strzalka w-lewo' href='?album_id=$album_id&zdjecie_id=".$zdjecia[$aktualny-1]."'></a>";//coraz nowsze zdjęcia
+                                if($aktualny < count($zdjecia)-1)
+                                    echo "<a class='strzalka w-prawo' href='?album_id=$album_id&zdjecie_id=".$zdjecia[$aktualny+1]."'></a>";//coraz starsze zdjęcia
+                            }
+
+                            echo        "<img 
+                                            src='data:image/jpeg;base64, $output' 
+                                            alt='Zdjęcie w albumie'
+                                        >
                                     </section>";
                             echo    "<section>
                                         ".($zdjecie['l_ocen'] != NULL ?
