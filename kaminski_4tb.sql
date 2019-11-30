@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 29 Lis 2019, 02:24
+-- Czas generowania: 30 Lis 2019, 02:30
 -- Wersja serwera: 10.3.15-MariaDB
 -- Wersja PHP: 7.3.6
 
@@ -133,7 +133,11 @@ INSERT INTO `zdjecia` (`id`, `opis`, `id_albumu`, `data`, `zaakceptowane`) VALUE
 (73, '', 21, '2019-11-29 01:24:43', 1),
 (74, '', 22, '2019-11-29 01:24:48', 1),
 (75, '', 23, '2019-11-29 01:24:54', 1),
-(76, '', 24, '2019-11-29 01:24:59', 1);
+(76, '', 24, '2019-11-29 01:24:59', 1),
+(77, '', 10, '2019-11-30 02:26:05', 1),
+(78, '', 10, '2019-11-30 02:26:10', 1),
+(79, '', 10, '2019-11-30 02:26:14', 1),
+(80, '', 10, '2019-11-30 02:26:28', 1);
 
 -- --------------------------------------------------------
 
@@ -149,6 +153,35 @@ CREATE TABLE `zdjecia_komentarze` (
   `zaakceptowany` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
+--
+-- Zrzut danych tabeli `zdjecia_komentarze`
+--
+
+INSERT INTO `zdjecia_komentarze` (`id_zdjecia`, `id_uzytkownika`, `data`, `komentarz`, `zaakceptowany`) VALUES
+(67, 19, '2019-11-29 23:29:36', 'wegrdht', 1),
+(69, 19, '2019-11-29 23:31:32', 'fdjhsdo', 1),
+(69, 19, '2019-11-29 23:31:40', 'wereagth', 1),
+(69, 19, '2019-11-30 00:04:20', 'fdgn', 1),
+(49, 19, '2019-11-30 00:15:51', '6y7uijk', 0),
+(49, 19, '2019-11-30 00:15:54', 'uikl', 0),
+(49, 19, '2019-11-30 00:17:46', 'rghtgh', 1),
+(75, 19, '2019-11-30 00:18:38', 'thrymj', 1),
+(54, 19, '2019-11-30 00:21:32', 'ut5rik6yuloi', 1),
+(54, 19, '2019-11-30 00:21:34', 'yut75ri6ykgulh', 1),
+(54, 19, '2019-11-30 00:21:37', 'ut5rlh', 1),
+(54, 19, '2019-11-30 00:21:40', 'yut5ikl', 1),
+(49, 19, '2019-11-30 00:33:51', 'hthyj', 1),
+(49, 19, '2019-11-30 00:33:53', 'gfrhdngh', 1),
+(61, 19, '2019-11-30 01:06:06', 'eredhyt', 1),
+(68, 19, '2019-11-30 01:13:41', 'sxdcfvgb', 1),
+(68, 19, '2019-11-30 01:13:44', 'dbfng', 1),
+(68, 19, '2019-11-30 01:13:46', 'efdsgvfhbngf', 1),
+(68, 19, '2019-11-30 01:13:49', 'gfbdng bm', 1),
+(68, 19, '2019-11-30 01:13:51', 'fdngfhnbmn', 1),
+(68, 19, '2019-11-30 01:13:53', 'segdrfhjgtfmyh', 1),
+(68, 19, '2019-11-30 01:14:13', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1),
+(68, 19, '2019-11-30 01:14:26', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#039;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#039;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -160,6 +193,21 @@ CREATE TABLE `zdjecia_oceny` (
   `id_uzytkownika` int(11) NOT NULL,
   `ocena` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `zdjecia_oceny`
+--
+
+INSERT INTO `zdjecia_oceny` (`id_zdjecia`, `id_uzytkownika`, `ocena`) VALUES
+(50, 18, 6),
+(49, 18, 7),
+(50, 19, 10),
+(49, 19, 1),
+(67, 19, 4),
+(69, 19, 6),
+(75, 19, 7),
+(61, 19, 4),
+(68, 19, 5);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -219,7 +267,7 @@ ALTER TABLE `uzytkownicy`
 -- AUTO_INCREMENT dla tabeli `zdjecia`
 --
 ALTER TABLE `zdjecia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- Ograniczenia dla zrzutów tabel
