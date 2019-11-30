@@ -14,27 +14,6 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <header>
-        <div id="header_text_wrapper">
-            <h1>Album</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="galeria.php">Galeria</a></li>
-                <li><a href="dodaj-album.php">Załóź album</a></li>
-                <li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
-                <li><a href="top-foto.php">Najlepiej oceniane</a></li>
-                <li><a href="nowe-foto.php">Najnowsze</a></li>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="konto.php">Moje konto</a></li>'?>
-                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Zaloguj się</a></li>'?>
-                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Rejestracja</a></li>'?>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="wyloguj.php">Wyloguj się</a></li>'?>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
-            </ul>
-        </nav>
-    </header>
-    <main id="container">
-        <a class='go-galery' href="galeria.php">Powrót do galerii</a><br>
         <?php
             function filter($get_name) {return htmlspecialchars(filter_input(INPUT_GET, $get_name), ENT_QUOTES, 'UTF-8');}
 
@@ -58,25 +37,51 @@ session_start();
                                                             z.id,
                                                             z.id_albumu,
                                                             z.zaakceptowane,
+                                                            a.tytul,
                                                             count(z.id) AS countId
                                                         FROM zdjecia z
+                                                            join albumy a
+                                                                on a.id = z.id_albumu
                                                         WHERE z.id_albumu = ?
                                                             AND z.zaakceptowane = 1
                                                         GROUP BY z.id
                                                         ORDER BY z.id DESC
                                                         LIMIT $pomin, 18446744073709551615"))
                 {
-                    require_once 'class.img.php';
-
                     $zdjecieQuery->bind_param("i", $album_id);
                     $zdjecieQuery->execute();
-                    
                     $result = $zdjecieQuery->get_result();
 
                     $ile_stron = (int)floor((($result->num_rows)+$pomin)/20)+1;
 
+                    require_once 'class.img.php';
                     $wyswietlono_ilosc = 0;
-                    while(($zdjecie = $result->fetch_assoc()))
+                    $zdjecie_tmp = $result->fetch_assoc();
+                    ?>
+                    <header>
+                        <div id="header_text_wrapper">
+                            <h1><?=$zdjecie_tmp['tytul']?></h1>
+                        </div>
+                        <nav>
+                            <ul>
+                                <li><a href="galeria.php">Galeria</a></li>
+                                <li><a href="dodaj-album.php">Załóź album</a></li>
+                                <li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
+                                <li><a href="top-foto.php">Najlepiej oceniane</a></li>
+                                <li><a href="nowe-foto.php">Najnowsze</a></li>
+                                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="konto.php">Moje konto</a></li>'?>
+                                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Zaloguj się</a></li>'?>
+                                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Rejestracja</a></li>'?>
+                                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="wyloguj.php">Wyloguj się</a></li>'?>
+                                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
+                            </ul>
+                        </nav>
+                    </header>
+                    <main id="container">
+                        <a class='go-galery' href="galeria.php">Powrót do galerii</a><br>
+                    <?php
+                    $result->data_seek(0);//cofnięcie pointera z powrotem na pierwszy wiersz po pobraniu zdjecie_tmp
+                    while($zdjecie = $result->fetch_assoc())
                     {
                         if($wyswietlono_ilosc >= 20)
                             break;
@@ -105,7 +110,7 @@ session_start();
                     <?php
                         for($i=1; $i<=($ile_stron); $i++)
                         {
-                            echo "<li><a href='?album_id=$album_id&strona=$i' ".($i == $strona ? "class='current-page'" : "").">$i</a></li>";
+                            echo        "<li><a href='?album_id=$album_id&strona=$i' ".($i == $strona ? "class='current-page'" : "").">$i</a></li>";
                         }
                     ?>
                                     </ul>

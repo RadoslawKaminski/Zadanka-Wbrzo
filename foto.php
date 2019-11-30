@@ -15,32 +15,11 @@ session_start();
 </head>
 <body>
     <header>
-        <div id="header_text_wrapper">
-            <h1>Zdjęcie</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="galeria.php">Galeria</a></li>
-                <li><a href="dodaj-album.php">Załóź album</a></li>
-                <li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
-                <li><a href="top-foto.php">Najlepiej oceniane</a></li>
-                <li><a href="nowe-foto.php">Najnowsze</a></li>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="konto.php">Moje konto</a></li>'?>
-                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Zaloguj się</a></li>'?>
-                <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Rejestracja</a></li>'?>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="wyloguj.php">Wyloguj się</a></li>'?>
-                <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
-            </ul>
-        </nav>
-    </header>
-    <main id="container">
         <?php
             function filter($get_name) {return htmlspecialchars(filter_input(INPUT_GET, $get_name), ENT_QUOTES, 'UTF-8');}
 
             $album_id = filter("album_id");
             $zdjecie_id = filter("zdjecie_id");
-            
-            echo "<a class='go-album' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a><br>";
             
             $ok = true;
 
@@ -96,11 +75,33 @@ session_start();
                             $img->Send();
                             $output = base64_encode(ob_get_contents());
                             ob_end_clean();
-                            echo    "<section>
-                                        <h3>Album: ".$zdjecie['tytul']."</h3>
-                                        <h3>Data dodania: ".$zdjecie['data']."</h3>
-                                        <h3>Dodał: ".$zdjecie['login']."</h3>
-                                        ".($zdjecie['opis'] != "" ? "<p>Opis: ".$zdjecie['opis']."</p>" : "")."
+                            ?>
+        <div id="header_text_wrapper">
+                    <h1><?=$zdjecie['tytul']?></h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="galeria.php">Galeria</a></li>
+                        <li><a href="dodaj-album.php">Załóź album</a></li>
+                        <li><a href="dodaj-foto.php">Dodaj zdjęcie</a></li>
+                        <li><a href="top-foto.php">Najlepiej oceniane</a></li>
+                        <li><a href="nowe-foto.php">Najnowsze</a></li>
+                        <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="konto.php">Moje konto</a></li>'?>
+                        <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Zaloguj się</a></li>'?>
+                        <?php if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != true) echo '<li><a href="index.php">Rejestracja</a></li>'?>
+                        <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) echo '<li><a href="wyloguj.php">Wyloguj się</a></li>'?>
+                        <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true && isset($_SESSION['uprawnienia']) && ($_SESSION['uprawnienia'] == 'moderator' || $_SESSION['uprawnienia'] == 'administrator')) echo '<li><a href="admin/index.php">Panel administracyjny</a></li>'?>
+                    </ul>
+                </nav>
+            </header>
+            <main id="container">
+                            <?php
+                            echo "<a class='go-album' href='album.php?album_id=$album_id'>Powrót do listy zdjęć</a><br>";
+
+                            echo    "<section id='informacje'>
+                                        <h4>Dodane przez ".$zdjecie['login']."</h4>
+                                        <span>".$zdjecie['data']."</span>
+                                        ".($zdjecie['opis'] != "" ? "<p>".$zdjecie['opis']."</p>" : "")."
                                     </section>";
                             echo    "<section id='zdjecie' zdjecie_id='".$zdjecie['id']."'>
                                             <img 
@@ -131,7 +132,7 @@ session_start();
                                     {
                                         //user już ocenił zdjęcie
                                         echo    "<section>
-                                                    <h3>Już oceniłeś to zdjęcie na ".round($ocena['ocena'])."</h3>
+                                                    <h3 id='juz_oceniles_info'>Już oceniłeś to zdjęcie na ".round($ocena['ocena'])."</h3>
                                                 </section>";
                                     }
                                     else

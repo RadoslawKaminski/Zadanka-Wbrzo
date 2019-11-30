@@ -13,3 +13,49 @@ main>a.go-album
     padding:5px;
     border:1px dashed #f2bc8e;
 }
+#informacje
+{
+    margin-bottom:20px;
+}
+#informacje h3
+{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+#informacje h4
+{
+    margin:10px 0;
+}
+#ocen_form
+{
+    margin-bottom:15px;
+}
+#ocen_form h2
+{
+    margin-bottom:10px;
+}
+#juz_oceniles_info
+{
+    margin-top:0;
+}
+.komentarz
+{
+    padding: 5px 20px;
+    border: 2px solid #f2bc8e;
+    margin-bottom:20px;
+}
+.komentarz h4
+{
+    margin-bottom: 0;
+}
+.komentarz span
+{
+    font-size:14px
+}
+textarea#kom_tresc
+{
+    height:90px;
+    width:500px;
+}
