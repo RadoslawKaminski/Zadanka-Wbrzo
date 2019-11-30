@@ -5,13 +5,13 @@
 main>a.go-album:hover
 {
     background-color: #f2bc8e;
-    border:1px solid #f2bc8e;
+    border:2px solid #f2bc8e;
 }
 main>a.go-album
 {
     margin:10px;
     padding:5px;
-    border:1px dashed #f2bc8e;
+    border:2px dashed #f2bc8e;
 }
 #informacje
 {
